@@ -1,0 +1,15 @@
+version: '3'
+services:
+  dynamodb:
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb
+    ports:
+      - "8000:8000"
+  sqs:
+    image: "roribio16/alpine-sqs:latest"
+    container_name: sqs
+    ports:
+      - "9324:9324"
+      - "9325:9325"
+    stdin_open: true
+    tty: true
