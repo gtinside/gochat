@@ -2,12 +2,12 @@ package modal
 
 //Friend struct for user details
 type Friend struct {
-	Name string
-	Email string
+	Name   string
+	Email  string
 	UserId string
 }
 
-//User struct for storing user details
+//User struct for user details
 type User struct {
 	Friend
 	Password string
@@ -15,21 +15,22 @@ type User struct {
 
 //Message struct for chat messages
 type Message struct {
-	To string
-	From string
-	Message string
-	Sent string
+	To             string
+	From           string
+	Message        string
+	Sent           string
 	ConversationId string
 }
 
 //Response struct
 type Response struct {
 	Status StatusType
-	Msg string
+	Msg    string
 }
 
 type StatusType string
+
 const (
 	COMPLETED StatusType = "COMPLETED"
-	ERROR StatusType = "ERROR"
+	ERROR     StatusType = "ERROR"
 )

@@ -10,10 +10,9 @@ import (
 
 //short variable declarations are only allowed in functions
 var awsSession = modal.GetDynamoDBSession()
-var sqsSession = modal.GetSQSSession()
 
 // SaveMessage to save the chat messages
-func SaveMessage(w http.ResponseWriter, req *http.Request)  {
+func SaveMessage(w http.ResponseWriter, req *http.Request) {
 	var message modal.Message
 	err := json.NewDecoder(req.Body).Decode(&message)
 	if err != nil {
@@ -21,17 +20,17 @@ func SaveMessage(w http.ResponseWriter, req *http.Request)  {
 		return
 	}
 
-	if message.ConversationId = message.To +"-"+ message.From; message.From > message.To {
-		message.ConversationId = message.From +"-"+ message.To
+	if message.ConversationId = message.To + "-" + message.From; message.From > message.To {
+		message.ConversationId = message.From + "-" + message.To
 	}
 	err = awsSession.Table("MessageDetails").Put(message).Run()
 	if err != nil {
 		handleError(err, w, " Failed to save messages ")
 		return
 	}
-	log.Printf("Message from %v, to %v saved successfully with conv id %v",message.To,
+	log.Printf("Message from %v, to %v saved successfully with conv id %v", message.To,
 		message.From, message.ConversationId)
-	response := &modal.Response{Status:modal.COMPLETED, Msg: ""}
+	response := &modal.Response{Status: modal.COMPLETED, Msg: ""}
 	result, _ := json.Marshal(response)
 	fmt.Fprintf(w, string(result))
 	return
@@ -45,8 +44,8 @@ func GetMessages(w http.ResponseWriter, req *http.Request) {
 		handleError(err, w, " Failed to save messages ")
 		return
 	}
-	if message.ConversationId = message.To +"-"+ message.From; message.From > message.To {
-		message.ConversationId = message.From +"-"+ message.To
+	if message.ConversationId = message.To + "-" + message.From; message.From > message.To {
+		message.ConversationId = message.From + "-" + message.To
 	}
 	var messages []modal.Message
 	err = awsSession.Table("MessageDetails").Get("ConversationId", message.ConversationId).
@@ -70,7 +69,7 @@ func GetMessages(w http.ResponseWriter, req *http.Request) {
 		messages[i].From = m[messages[i].From]
 	}
 	u, _ := json.Marshal(&messages)
-	response := &modal.Response{Status:modal.COMPLETED, Msg: string(u)}
+	response := &modal.Response{Status: modal.COMPLETED, Msg: string(u)}
 	res, _ := json.Marshal(response)
 	fmt.Fprintf(w, string(res))
 }
@@ -78,7 +77,7 @@ func GetMessages(w http.ResponseWriter, req *http.Request) {
 // HandleError : Generic method to handle errors
 func handleError(err error, w http.ResponseWriter, msg string) {
 	log.Print(err)
-	response := &modal.Response{Status:modal.ERROR, Msg: msg}
+	response := &modal.Response{Status: modal.ERROR, Msg: msg}
 	result, _ := json.Marshal(response)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(result)
