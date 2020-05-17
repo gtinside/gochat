@@ -61,7 +61,7 @@ jobs:
         aws-region: us-east-2
         
     - name: Update ECS Service Definition to force deployment
-       run:|
+      run: |
          aws ecs update-service --cluster GoApplicationECSCluster --service GoChatService --force-new-deployment
       env: 
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
