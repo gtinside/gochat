@@ -59,19 +59,8 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
-    
-    - name: Amazon ECS Task Definition for GoChat
-      id: task-def
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
-      with:
-        task-definition: task-definition.json
-        container-name: gochat-server-container
-        image: gtinside/gochat-server:latest
-      
-    - name: Deploy GoChat ECS task definition
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      with:
-        task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: GoChatService
-        cluster: GoApplicationECSCluster
-        wait-for-service-stability: true
+        
+    - name: Update ECS Service Definition to force deployment
+       run:|
+         aws ecs update-service --cluster GoApplicationECSCluster --service GoChatService --force-new-deployment
+         
