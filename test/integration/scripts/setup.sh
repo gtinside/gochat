@@ -5,6 +5,11 @@
 #   a) UserDetails - Store user details
 #   b) Messages - Store the messages sent and received
 
+echo "Creating a profile for local dynamodb with aws_access_key_id = MYACCESSKEYID,
+aws_secret_access_key = MYSECRETACCESSKEY and region = us-west-2"
+aws configure --profile local set aws_access_key_id MYACCESSKEYID
+aws configure --profile local set aws_secret_access_key MYSECRETACCESSKEY
+aws configure --profile local set region us-west-2
 echo "Starting up dynamodb, please make sure docker daemon is up and running"
 exec docker-compose restart &
 BACK_PID=$!
@@ -13,7 +18,7 @@ while kill -0 $BACK_PID; do
     sleep 1
 done
 echo "Creating tables now, please make sure aws cli is installed, https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-mac.html"
-aws dynamodb create-table \
+aws  --profile local dynamodb create-table \
                   --table-name UserDetails \
                   --attribute-definitions \
                     AttributeName=UserId,AttributeType=S \
@@ -33,7 +38,7 @@ aws dynamodb create-table \
 	                    \"Projection\":{\"ProjectionType\":\"ALL\"},
 	                    \"ProvisionedThroughput\":{\"ReadCapacityUnits\":1, \"WriteCapacityUnits\":1}}]"
 
-aws dynamodb create-table \
+aws  --profile local dynamodb create-table \
                   --table-name MessageDetails \
                   --attribute-definitions \
                     AttributeName=ConversationId,AttributeType=S \
@@ -52,7 +57,4 @@ aws dynamodb create-table \
 
 
 echo "Following tables were created :"
-aws dynamodb list-tables --endpoint-url http://localhost:8000
-
-echo "Creating Message Queue"
-aws sqs create-queue --queue-name Messages --endpoint-url http://localhost:9324
+aws --profile local dynamodb list-tables --endpoint-url http://localhost:8000

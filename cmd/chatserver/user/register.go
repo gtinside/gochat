@@ -19,7 +19,12 @@ func RegisterAction(w http.ResponseWriter, req *http.Request) {
 	var user modal.User
 	err := decoder.Decode(&user)
 	if err != nil {
-		handleError(err, w, "Error decoding user")
+		handleError(err, w, "Error decoding user, please try again later")
+		return
+	}
+
+	if len(user.Name) == 0 || len(user.Email) == 0 || len(user.Password) == 0 {
+		handleError(err, w, "Name, Email & Password are required")
 		return
 	}
 
@@ -29,7 +34,7 @@ func RegisterAction(w http.ResponseWriter, req *http.Request) {
 	err = table.Get("Email", user.Email).Index("EmailIndex").All(&results)
 	if err != nil {
 		log.Print(fmt.Errorf("error validating user request, err: %w", err))
-		handleError(err, w, "Error validating request ")
+		handleError(err, w, "Error validating request, please try again later ")
 		return
 	}
 
@@ -50,7 +55,8 @@ func RegisterAction(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 		log.Printf("User %v created successfully with UserId %v", user.Email, user.UserId)
-		response := &modal.Response{Status:modal.COMPLETED, Msg: ""}
+		u, _ := json.Marshal(&user.Friend)
+		response := &modal.Response{Status:modal.COMPLETED, Msg: string(u)}
 		result, _ := json.Marshal(response)
 		fmt.Fprintf(w, string(result))
 		return

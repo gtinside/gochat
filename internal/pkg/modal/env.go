@@ -2,6 +2,7 @@ package modal
 
 import (
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/guregu/dynamo"
 	"os"
@@ -15,6 +16,7 @@ func GetDynamoDBSession() (db *dynamo.DB) {
 	if len(localDev) != 0 {
 		config.Endpoint = aws.String("http://localhost:8000")
 		config.Region = aws.String("us-west-2")
+		config.Credentials =  credentials.NewStaticCredentials("MYACCESSKEYID", "MYSECRETACCESSKEY", "")
 	} else {
 		config.Region = aws.String("us-east-2")
 	}

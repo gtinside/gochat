@@ -7,8 +7,6 @@ import (
 )
 
 
-
-
 func main() {
 	http.HandleFunc("/register", user.RegisterAction)
 	http.HandleFunc("/saveMessage", message.SaveMessage)
