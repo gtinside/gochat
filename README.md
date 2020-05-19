@@ -29,8 +29,8 @@ If you don't have requirements prepared, install it. The installation method may
 ##### Build
 ```
 git clone https://github.com/gtinside/gochat
-docker build. --file Dockerfile --tag gochat-server:latest
-docker run docker run -p 8090:8090  gochat-server:latest
+docker build --tag gochat-server:latest .
+docker run -p 8090:8090  gochat-server:latest
 ```
 To compile and run locally, execute the following from within project directory to start the server on **port 8090**: 
 ```
