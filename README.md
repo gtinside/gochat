@@ -48,6 +48,8 @@ The setup script does the following:
 2. Create UserDetails and MessageDetails tables. Refer to the [architecture page](https://gauravtiwari.blog/2020/05/18/gochat-yet-another-chat-application) for more details.
 
 #### Packaging & Deployment
+<hr/>
+
 Refer to the [Workflow](https://github.com/gtinside/gochat/blob/master/.github/workflows/dockerimage.yml) file for build and deployment details. 
 Following workflows are embedded in it:
 1. Image build and publish to Github package registry
