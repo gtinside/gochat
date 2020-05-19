@@ -32,9 +32,10 @@ git clone https://github.com/gtinside/gochat
 docker build. --file Dockerfile --tag gochat-server:latest
 docker run docker run -p 8090:8090  gochat-server:latest
 ```
-You can also run the node server directly
+To compile and run locally, execute the following from within project directory to start the server on **port 8090**: 
 ```
-node index.js
+go build -o bin/ ./cmd/...
+./bin/chatserver
 ```
 #####Start DynamoDB locally
 After the server startup, navigate to **gochat/test/integration/** directory and run the following commands:
